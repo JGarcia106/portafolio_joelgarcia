@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head">
+        <title>TechShop</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" 
+              rel="stylesheet"/>
+
+        <link th:href="@{/webjars/font-awesome/css/all.min.css}" 
+              rel="stylesheet"/>
+
+        <link th:href="@{/css/estilos.css}" 
+              rel="stylesheet"/>
+    </head>
+
+    <body>
+
+        <header th:fragment="header" class="p-3 bg-success text-white">
+            <div class="container">
+                <h1>
+                    <i class="fa-solid fa-gear"></i>
+                    [[#{plantilla.suTienda}]]
+                </h1>
+            </div>
+        </header>
+
+        <footer th:fragment="footer" class="p-3 mt-5 bg-info text-white text-center">
+            <div class="container">
+                <p>
+                    [[#{plantilla.derechos}]] &copy;
+                </p>
+            </div>
+
+            <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+            <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+            <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        </footer>
+
+    </body>
+</html>
