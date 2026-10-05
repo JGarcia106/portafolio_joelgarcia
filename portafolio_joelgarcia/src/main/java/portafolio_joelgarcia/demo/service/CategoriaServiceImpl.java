@@ -1,9 +1,11 @@
 package portafolio_joelgarcia.demo.service;
 
+import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import portafolio_joelgarcia.demo.domain.Categoria;
 import portafolio_joelgarcia.demo.repository.CategoriaRepository;
 
@@ -12,6 +14,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private FirebaseStorageService firebaseStorageService;
 
     @Override
     @Transactional(readOnly = true)
@@ -28,13 +33,35 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     @Transactional(readOnly = true)
     public Categoria getCategoria(Categoria categoria) {
-        return categoriaRepository.findById(categoria.getIdCategoria()).orElse(null);
+        return categoriaRepository.findById(
+                categoria.getIdCategoria()
+        ).orElse(null);
     }
 
     @Override
     @Transactional
-    public void save(Categoria categoria) {
-        categoriaRepository.save(categoria);
+    public void save(Categoria categoria, MultipartFile imagenFile) {
+
+        categoria = categoriaRepository.save(categoria);
+
+        if (!imagenFile.isEmpty()) {
+
+            try {
+
+                String rutaImagen = firebaseStorageService.uploadImage(
+                        imagenFile,
+                        "categoria",
+                        categoria.getIdCategoria()
+                );
+
+                categoria.setRutaImagen(rutaImagen);
+
+                categoriaRepository.save(categoria);
+
+            } catch (IOException e) {
+
+            }
+        }
     }
 
     @Override
